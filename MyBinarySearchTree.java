@@ -211,8 +211,99 @@ public class MyBinarySearchTree implements TreeSearchAlgorithm {
     }
 
     public java.lang.Object delete(java.lang.Comparable key){
-        //TODO
-	return null;
+	 //search for node with node.key == key;
+	 edu.gwu.algtest.TreeNode curNode = root; //QUESTION: how to directly use search method?
+         while(curNode != null){
+             //if node already exits, update KVP of treenode
+             if(key.compareTo(curNode.key) == 0){
+                 break;
+             }
+             else if(key.compareTo(curNode.key) < 0){
+                 curNode = curNode.right;
+             }
+             else{
+                 curNode = curNode.right;
+             }
+         }
+
+        if(curNode != null){ //we found node for given key
+		//CASE1: no children
+		if(curNode.left == curNode.right){
+			if(curNode.parent != null){
+				if(curNode.parent.right == curNode){ //curNode is right child
+					curNode.parent.right = null;
+					return curNode.value;
+				}	
+				else{ //curNode is left child
+					curNode.parent.left = null;
+					return curNode.value;
+				}	
+			}
+			else{ //node is root, so remove root
+				root = null;
+				return curNode.value;
+			}
+		}	
+		//CASE2a: node has left child
+		else if(curNode.left != null && curNode.right == null) {
+			if(curNode.parent != null){
+                                if(curNode.parent.right == curNode){ //curNode is right child
+                                        curNode.parent.right = curNode.left;
+                                        return curNode.value;
+                                }
+                                else{ //curNode is left child
+                                        curNode.parent.left = curNode.left;
+                                        return curNode.value;
+                                }
+			}
+			else { //curNode is root
+				root = curNode.left;
+				return curNode.value;
+			}
+		}
+		//CASE2b: node has right child
+		else if(curNode.right != null && curNode.left == null){
+                        if(curNode.parent != null){
+                                if(curNode.parent.right == curNode){ //curNode is right child
+                                        curNode.parent.right = curNode.right;
+                                        return curNode.value;
+                                }
+                                else{ //curNode is left child
+                                        curNode.parent.left = curNode.right;
+                                        return curNode.value;
+                                }
+                        }
+                        else { //curNode is root
+                                root = curNode.right;
+                                return curNode.value;
+                        }
+		}
+		//CASE3: node has two children
+		else{
+			//find curNode's successor (search())
+			java.lang.Comparable sucKey = successor(curNode.key);
+			//suc can't be null (because node has two children)
+			 edu.gwu.algtest.TreeNode sucNode = root; //QUESTION: how to use search method
+		         while(sucNode != null){
+		             //if node already exits, update KVP of treenode
+		            if(sucKey.compareTo(sucNode.key) == 0){
+		                 break;
+		             }
+		             else if(sucKey.compareTo(sucNode.key) < 0){
+		                 sucNode = sucNode.right;
+		             }
+		             else{
+                 		sucNode = sucNode.right;
+             		     }	
+		         }
+			 //sucNode is set
+             //TODO: finish implementing CASE3
+			return null;
+		}
+
+	}
+	
+	return null; //key not found
     }
 
     public java.lang.Comparable successor(java.lang.Comparable key){
