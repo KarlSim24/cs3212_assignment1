@@ -179,6 +179,10 @@ public class MyRLTree implements TreeSearchAlgorithm {
 				if(nodeToRotate.parent.right == nodeToRotate){ //if right child, rotate left
 					//System.out.println("right child:"+nodeToRotate.key);
 					nodeToRotate.parent.right = nodeToRotate.left;
+					//update parent of nodeToRotate's child (if not null)
+					if(nodeToRotate.left != null){
+						nodeToRotate.left.parent = nodeToRotate.parent;
+					}
 					nodeToRotate.left = nodeToRotate.parent;
 					nodeToRotate.parent = nodeToRotate.parent.parent;
 					nodeToRotate.left.parent = nodeToRotate;
@@ -198,6 +202,10 @@ public class MyRLTree implements TreeSearchAlgorithm {
 				else { //if left child, rotate right
 					// System.out.println("left child:"+nodeToRotate.key);
                                         nodeToRotate.parent.left = nodeToRotate.right;
+					//update parent of nodeToRotate's child (if not null)
+					if(nodeToRotate.right != null){
+						nodeToRotate.right.parent = nodeToRotate.parent;
+					}
                                         nodeToRotate.right = nodeToRotate.parent;
                                         nodeToRotate.parent = nodeToRotate.parent.parent;
                                         nodeToRotate.right.parent = nodeToRotate;
@@ -224,7 +232,6 @@ public class MyRLTree implements TreeSearchAlgorithm {
 		}
 		//here, parent is null, so return
 		root = nodeToRotate;
-		return;
 	}
 	return;
     }
@@ -397,7 +404,7 @@ public class MyRLTree implements TreeSearchAlgorithm {
 	if(curNode == null){
 		return;
 	}
-	// System.out.println(curNode);
+	System.out.println(curNode);
 
 	printTree(curNode.left);
 	printTree(curNode.right);
@@ -405,13 +412,11 @@ public class MyRLTree implements TreeSearchAlgorithm {
 
     public static void main(String[] argv){
 	MyRLTree RL = new MyRLTree();
-	RL.initialize(10);
-	RL.insert(1, "one");
-	RL.insert(4, "four");
-	RL.insert(3, "three");
-        RL.insert(7, "seven");
-        RL.insert(2, "two");
-        RL.insert(9, "nine");
+	RL.initialize(100);
+        for(int i=0; i<25; i++){
+		RL.insert(i, i);
+	}
+
 
 	RL.printTree(RL.getRoot());
     }
